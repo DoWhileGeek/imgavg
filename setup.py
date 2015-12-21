@@ -37,7 +37,7 @@ def write_version():
     version = _create_version_from_description(git_description) if git_description else None
 
     if version:
-        with open(VERSION_FILE, "w"") as version_file:
+        with open(VERSION_FILE, "w") as version_file:
             version_file.write(json.dumps({"version": version}))
     yield
 
