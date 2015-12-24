@@ -22,16 +22,10 @@ def parse():
     parser.add_argument("-f", "--folder", default=".", help="The folder to load images from")
     parser.add_argument("-o", "--output", default="out.png", help="filename of the resulting image")
     parser.add_argument("-v", "--verbose", action="store_true", help="print more verbose output")
-    parser.add_argument("-q", "--quiet", action="store_true", help="Silence all printed output")
 
     args = parser.parse_args()
 
     return vars(args)
-
-
-def flush(args):
-    if not args["verbose"] and not args["quiet"]:
-        print("", flush=False)
 
 
 def average(args):
@@ -55,23 +49,17 @@ def average(args):
             if data is None: #populate the array
                 data = temp_arr
             elif data.shape != temp_arr.shape: #throw if image dimensions differ
-                flush(args)
                 raise InconsistentImageError("images must all be the same dimensions, and have the same bands E.G.(RGB, RGBA)")
             else:
                 data += temp_arr
 
-            if not args["quiet"]:
-                if args["verbose"]:
-                    print("loaded {}".format(path))
-                else:
-                    print('.', end="", flush=True)
+            if args["verbose"]:
+                print("loaded {}".format(path))
+
     except TypeError:
         # If the user attempts to cancel the process, we'll jump out of the loop
         # and save the result
         pass
-
-
-    flush(args)
 
     result = data / len(files)
 
