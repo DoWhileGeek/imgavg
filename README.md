@@ -1,6 +1,9 @@
 # imgavg
 A command line utility that outputs the average of a number of pictures.
 
+![example image of image averaging](example.png)
+Left: 1 frame, 40 samples. Right: 250 merged frames, 40 samples each.
+
 ##Installation:
     pip install imgavg
 
