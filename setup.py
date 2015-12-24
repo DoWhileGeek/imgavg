@@ -60,6 +60,12 @@ def main():
                     "pytest==2.8.5",
                     "twine==1.5.0",
                 ]},
+            packages=[
+                "imgavg"
+            ],
+            package_data={
+                "imgavg": ["imgavg/*"],
+            },
             scripts=["bin/imgavg"]
         )
 
