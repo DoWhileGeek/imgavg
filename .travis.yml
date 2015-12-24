@@ -1,0 +1,14 @@
+language: python
+python:
+- '3.4'
+- '3.5'
+install: pip install -e .[develop]
+script: py.test
+deploy:
+  provider: pypi
+  user: dowhilegeek
+  password:
+    secure: EWtJTkKOVukR8+AiEb7TE3QxbDOWYVGwxbjYHORx2+WHeHQsTh8R23oM1MmdJ0ouPKo4sB3YZaNqlN76ZxKtPuSToMe63kDs3dDHd59N/fqjaSqOXHDz0CDJJe8uHgmfmOJI6zcDpoVEozMMIrMnEA804EGhXhwuQimhRcPssmjmaA1IdJWAi7OMPXfZYdnQrf8108O6CO8P96PtxXXhdzeByfKxcZQbiy1FIjRG4lvlHeN0QNItODRvMY804T5lR5UsswVyTW2/3OOI2M9OMu7J3sjgOJXfGH3pytv2Npw5mhVeU7NOJiFyiWXuIWWiLN/rf7SBiqInwFbK9TACc4tr8NiOLZixjp+w575x0ya2NT8CK6m0XKFKRfgHtR1uSEqyvBJxojcY4RpFsWiTy8BlJp8IV/oAZnA0z2cJR/PMoMeB/j81L1csK9kUzdKBXR2Jj87zeh4SCmoBaFmnrhuKw7TT00Ca15Q4YJUH+Nu26kiRVLDuso6/Mim3h2IIqrAmJRBc4RJMvvAmTu/XcyxuUfJmBaPuw5fGAgv5noSjV/7J7jK8RbwdoJMglOdsFRSrLXOIEK5nMXm8lLKtdMYKxkNvraenwvIf3oP93uXcyivG+xiAOj/ypUlImicHjtPMosBQuS0s+yYe22ZQt9thHuQh0TTVvsUqPd2aU00=
+  on:
+    tags: true
+    repo: DoWhileGeek/imgavg
