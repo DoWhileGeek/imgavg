@@ -1,10 +1,19 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from PIL import Image
 import numpy as np
 import os
 import argparse
 
+
+class InconsistentImageError(Exception):
+    """thrown when a selection of images are not the same dimensions"""
+    pass
+
+
+class InsufficientImagesError(Exception):
+    """thrown when there are not enough images to average"""
+    pass
 
 def parse():
     parser = argparse.ArgumentParser()
@@ -24,31 +33,31 @@ def flush(args):
         print("", flush=False)
 
 
-def main():
-    args = parse()
+def average(args):
 
-    matrices = []
-    dimensions = None
+    data = None
+    files = [os.path.join(args["folder"], item) for item in os.listdir(args["folder"]) if any(ext in item for ext in ["png", "jpg", "bmp"])]
+
+    # break out if there are no images, to avoid division by zero below
+    if not len(files):
+        raise InsufficientImagesError("no images found in {}".format(os.path.abspath(args["folder"])))
+
+    # The whole process is useless if there isnt at least two images, break out.
+    if len(files) <= 1:
+        raise InsufficientImagesError("not enough images to average")
 
     try:
-        for item in os.listdir(args["folder"]):
-            # We only care about the usual suspects, skip everything else.
-            if not any(extention in item for extention in ["png", "jpg", "bmp"]):
-                continue
-
-            path = "{}/{}".format(args["folder"], item)
-
+        for path in files:
             im = Image.open(path)
-            matrices.append(np.array(im).astype(np.uint64))
+            temp_arr = np.array(im).astype(np.uint64)
 
-            # we cannot sum matrices of varying dimensions, this will break
-            # us out as soon as we find a problem file
-            if not dimensions:
-                dimensions = matrices[-1].shape
-            elif matrices[-1].shape != dimensions:
+            if data is None: #populate the array
+                data = temp_arr
+            elif data.shape != temp_arr.shape: #throw if image dimensions differ
                 flush(args)
-                print("images must all be the same dimensions, and have the same bands E.G.(RGB, RGBA)")
-                return
+                raise InconsistentImageError("images must all be the same dimensions, and have the same bands E.G.(RGB, RGBA)")
+            else:
+                data += temp_arr
 
             if not args["quiet"]:
                 if args["verbose"]:
@@ -60,19 +69,10 @@ def main():
         # and save the result
         pass
 
-    # break out if there are no images, to avoid division by zero below
-    if not len(matrices):
-        print("no images found in {}".format(os.path.abspath(args["folder"])))
-        return
-
-    # The whole process is useless if there isnt at least two images, break out.
-    if len(matrices) <= 1:
-        print("not enough images to average")
-        return
 
     flush(args)
 
-    result = sum(matrices) / len(matrices)
+    result = data / len(files)
 
     im = Image.fromarray(result.astype(np.uint8))
 
@@ -80,6 +80,15 @@ def main():
         print("saving {}".format(args["output"]))
 
     im.save(args["output"])
+
+
+def main():
+    args = parse()
+
+    try:
+        average(args)
+    except (InconsistentImageError, InsufficientImagesError) as e:
+        print(e)
 
 
 if __name__ == "__main__":
