@@ -1,4 +1,4 @@
-# imgavg
+# imgavg [![Build Status](https://travis-ci.org/DoWhileGeek/imgavg.svg?branch=master)](https://travis-ci.org/DoWhileGeek/imgavg)
 A command line utility that outputs the average of a number of pictures.
 
 ![example image of image averaging](example.png)
