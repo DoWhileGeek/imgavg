@@ -57,7 +57,8 @@ def main():
             ],
             extras_require={
                 "develop": [
-                    "pytest==2.6.4",
+                    "pytest==2.8.5",
+                    "pytest-mock==0.7.0",
                     "twine==1.5.0",
                 ]},
             scripts=["bin/imgavg"]
