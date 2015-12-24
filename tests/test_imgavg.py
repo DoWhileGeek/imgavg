@@ -1,6 +1,6 @@
 import os
-import tempfile
 import shutil
+import tempfile
 
 import numpy as np
 import pytest
@@ -42,4 +42,3 @@ def test_not_enough_images(args):
         shutil.copy("tests/assets/happy_path/1.png", os.path.join(temp_dir, "1.png"))
         args["folder"] = temp_dir
         imgavg.average(args)
-
