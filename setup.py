@@ -53,7 +53,7 @@ def main():
             version=get_version(),
             install_requires=[
                 "numpy==1.10.2",
-                "Pillow==3.0.0"
+                "Pillow==8.1.1"
             ],
             extras_require={
                 "develop": [
