@@ -52,7 +52,7 @@ def main():
             author_email="dowhilegeek@gmail.com",
             version=get_version(),
             install_requires=[
-                "numpy==1.10.2",
+                "numpy==1.21.0",
                 "Pillow==3.0.0"
             ],
             extras_require={
